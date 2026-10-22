@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Rose (Dhana) ❤️</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Poppins:wght@300;400;600;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0b0213;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .font-romantic {
+            font-family: 'Great Vibes', cursive;
+        }
+
+        .font-handwriting {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .font-casual {
+            font-family: 'Caveat', cursive;
+        }
+
+        /* Floating Hearts Ambient */
+        .floating-heart {
+            position: fixed;
+            color: rgba(244, 114, 182, 0.6);
+            pointer-events: none;
+            z-index: 1;
+            animation: floatUp 8s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0.5) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Continuous Cake Love Text Floating */
+        .cake-floating-heart {
+            position: absolute;
+            font-family: 'Great Vibes', cursive;
+            color: #f472b6;
+            font-size: 2.2rem;
+            font-weight: bold;
+            text-shadow: 0 0 12px rgba(244, 114, 182, 0.9), 0 0 25px rgba(236, 72, 153, 0.8);
+            pointer-events: none;
+            z-index: 30;
+            white-space: nowrap;
+            animation: floatUpFromCake 4s ease-out forwards;
+        }
+
+        @keyframes floatUpFromCake {
+            0% {
+                transform: translate(-50%, 0) scale(0.4) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+                transform: translate(-50%, -40px) scale(1.1) rotate(-3deg);
+            }
+            100% {
+                transform: translate(calc(-50% + (var(--x-offset) * 1px)), -260px) scale(1.3) rotate(calc(var(--rot) * 1deg));
+                opacity: 0;
+            }
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(244, 114, 182, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(236, 72, 153, 0.2);
+        }
+
+        .glow-text {
+            text-shadow: 0 0 12px rgba(244, 114, 182, 0.9), 0 0 28px rgba(236, 72, 153, 0.8);
+        }
+
+        /* Candle Flame */
+        .flame {
+            width: 14px;
+            height: 22px;
+            background: linear-gradient(to top, #ff9d00, #ff0000, #ffff00);
+            border-radius: 50% 50% 20% 20%;
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: flicker 0.2s infinite alternate;
+            box-shadow: 0 0 12px #ff9d00, 0 0 24px #ff0000;
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1) rotate(-2deg); }
+            100% { transform: translateX(-50%) scale(1.15) rotate(2deg); }
+        }
+
+        .flame.extinguished {
+            display: none;
+        }
+
+        /* Floating music toggle button animation */
+        .music-pulse {
+            animation: pulseGlow 2s infinite;
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(236, 72, 153, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0); }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0213;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ec4899;
+            border-radius: 4px;
+        }
+
+        /* Final surprise gift box + one-by-one memory reveal */
+        #gift-section { padding: 5rem 1rem 4rem; max-width: 900px; margin: 0 auto; text-align: center; }
+        .gift-box-button { border: 0; cursor: pointer; background: transparent; color: inherit; }
+        .gift-emoji { display: inline-block; font-size: clamp(6rem, 25vw, 9rem); filter: drop-shadow(0 0 24px rgba(244,114,182,.65)); animation: giftBob 2s ease-in-out infinite; }
+        @keyframes giftBob { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-12px) rotate(3deg); } }
+        .gift-emoji.opened { animation: giftOpen .8s ease forwards; }
+        @keyframes giftOpen { 0% { transform: scale(1) rotate(0); } 45% { transform: scale(1.25) rotate(-10deg); } 100% { transform: scale(.2) rotate(18deg); opacity: 0; } }
+        #memory-stage { display:none; margin: 2rem auto 0; max-width: 560px; }
+        #memory-card { opacity: 0; transform: translateY(18px) scale(.97); transition: opacity 1s ease, transform 1s ease; }
+        #memory-card.visible { opacity: 1; transform: translateY(0) scale(1); }
+        #memory-card.fading { opacity: 0; transform: translateY(-14px) scale(.98); }
+        #memory-photo { display:block; width:100%; height:min(62vh, 520px); object-fit:contain; background:rgba(0,0,0,.28); border-radius:1.5rem; border:1px solid rgba(244,114,182,.55); box-shadow:0 0 35px rgba(236,72,153,.22); }
+        #memory-caption { color:#fbcfe8; font-family:'Dancing Script',cursive; font-size:clamp(1.5rem,5vw,2.2rem); margin-top:1rem; }
+        #memory-progress { color:#f9a8d4; font-size:.8rem; margin-top:.6rem; }
+        @media (prefers-reduced-motion: reduce) { .gift-emoji, .gift-emoji.opened { animation:none; } #memory-card { transition:none; } }
+
+    </style>
+</head>
+<body class="min-h-screen relative selection:bg-pink-500 selection:text-white">
+
+    <!-- Floating Ambient Hearts -->
+    <div id="hearts-container"></div>
+
+    <!-- FLOATING MUSIC PLAYER BUTTON -->
+    <button id="music-btn" onclick="toggleBirthdayMusic()" class="fixed top-5 right-5 z-40 bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 text-white px-5 py-3 rounded-full shadow-lg shadow-pink-500/40 border border-pink-300/40 flex items-center gap-3 transition transform hover:scale-105 active:scale-95 music-pulse">
+        <i id="music-icon" class="fa-solid fa-compact-disc text-xl"></i>
+        <div class="text-left">
+            <span id="music-text" class="block text-xs font-bold uppercase tracking-wider">Play Birthday Music 🎵</span>
+            <span class="block text-[10px] text-pink-200">Happy Birthday Background Score</span>
+        </div>
+    </button>
+
+    <!-- Your uploaded birthday background music -->
+    <audio id="birthday-audio" src="birthday-music.mp4" preload="auto" loop></audio>
+
+    <!-- PASSCODE LOCK SCREEN -->
+    <div id="passcode-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0b0213] transition-opacity duration-700">
+        <div class="glass-card max-w-md w-full rounded-3xl p-8 text-center relative overflow-hidden border border-pink-500/40 shadow-2xl">
+            <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-pink-500/20 flex items-center justify-center text-pink-400 text-3xl animate-bounce">
+                <i class="fa-solid fa-heart-lock"></i>
+            </div>
+            <h2 class="text-3xl font-bold font-handwriting text-pink-300 mb-2">Secret Lock Screen</h2>
+            <p class="text-gray-300 text-sm mb-6">Enter passcode to open Rose's Birthday Surprise ❤️</p>
+            
+            <div class="space-y-4">
+                <input type="password" id="passcode-input" placeholder="Enter Password..." 
+                       class="w-full px-5 py-3 rounded-full bg-black/50 text-white text-center text-xl tracking-widest border border-pink-500/50 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-500/40 transition">
+                <button onclick="checkPasscode()" 
+                        class="w-full py-3 bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold rounded-full shadow-lg shadow-pink-500/30 transition transform hover:scale-105 active:scale-95">
+                    Unlock Surprise ✨
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTENT -->
+    <div id="main-content" class="hidden min-h-screen pb-16 relative z-10">
+
+        <!-- HERO SECTION -->
+        <header class="min-h-screen flex flex-col justify-center items-center text-center px-4 relative pt-12">
+            
+            <!-- TOP TAG -->
+            <div class="inline-block p-1 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 mb-8 animate-pulse">
+                <span class="bg-[#0b0213] px-6 py-2 rounded-full text-pink-300 font-semibold text-xs md:text-sm tracking-wider uppercase">
+                    HAPPY BIRTHDAY ROSE (DHANA) 💗
+                </span>
+            </div>
+
+            <!-- GLOWING BIRTHDAY TITLE -->
+            <h1 class="text-6xl md:text-8xl font-romantic text-pink-400 glow-text mb-2">
+                Happy Birthday Rose!
+            </h1>
+            <p class="text-3xl md:text-4xl font-handwriting text-rose-200 mb-10">
+                (Dhana ❤️)
+            </p>
+
+            <!-- THARUN DHANALAKSHMI (PLACED ELEGANTLY RIGHT ABOVE MAIN LINE) -->
+            <div class="mb-4 inline-block px-8 py-2.5 rounded-full bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-rose-500/20 border border-pink-400/50 shadow-lg shadow-pink-500/30">
+                <p class="text-3xl md:text-5xl font-romantic text-pink-300 font-bold tracking-wide">
+                    Tharun Dhanalakshmi
+                </p>
+            </div>
+
+            <!-- MAIN LINE HIGHLIGHT BOX -->
+            <div class="max-w-2xl w-full glass-card rounded-3xl p-8 mb-8 border-2 border-pink-500/50 shadow-2xl shadow-pink-500/30">
+                <p class="text-2xl md:text-3xl font-bold font-handwriting text-pink-300 leading-relaxed whitespace-pre-line">
+                    Happy Birthday papaaa 🫠💗
+                    “En life eh nee thaan di nee illana sethuruven 😩”
+                </p>
+            </div>
+        </header>
+
+        <!-- VIRTUAL CAKE CUTTING SECTION -->
+        <section id="cake-section" class="py-16 px-4 max-w-4xl mx-auto text-center">
+            <div class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden border border-pink-500/30">
+                <h2 class="text-3xl md:text-5xl font-romantic text-pink-300 mb-2">Virtual Cake Cutting 🎂</h2>
+                <p class="text-gray-300 mb-8 text-sm md:text-base">Tap below to cut your birthday cake, Papa! ❤️</p>
+
+                <!-- Interactive Birthday Cake Container -->
+                <div id="cake-container" class="relative w-64 h-64 mx-auto my-6 flex flex-col items-center justify-end">
+                    <!-- Candle -->
+                    <div class="absolute top-8 left-1/2 -translate-x-1/2 w-4 h-16 bg-gradient-to-b from-yellow-200 to-pink-400 rounded-t-sm z-20 shadow-md">
+                        <div id="flame" class="flame"></div>
+                    </div>
+
+                    <!-- Cake Top Tier -->
+                    <div class="w-40 h-16 bg-gradient-to-r from-pink-300 via-rose-300 to-pink-400 rounded-t-2xl shadow-inner border-b-4 border-pink-400 relative z-10 flex items-center justify-center">
+                        <span class="text-pink-700 font-bold font-handwriting text-xl">Rose 💗</span>
+                    </div>
+
+                    <!-- Cake Bottom Tier -->
+                    <div class="w-56 h-20 bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 rounded-t-xl shadow-2xl relative flex items-center justify-center">
+                        <div class="w-full h-3 bg-white/20 absolute top-4"></div>
+                        <span class="text-white/90 text-xs tracking-widest font-semibold uppercase">Happy Birthday Dhana</span>
+                    </div>
+
+                    <!-- Cake Stand Base -->
+                    <div class="w-64 h-6 bg-slate-200 rounded-full shadow-2xl border-t-2 border-slate-300"></div>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-4 mt-6 mb-8">
+                    <button onclick="cutCake()" class="px-8 py-3.5 bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold text-lg rounded-full shadow-lg shadow-pink-500/40 transition transform hover:scale-105 active:scale-95 flex items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Cut Birthday Cake 🎉
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- HEARTFELT TAMIL LOVE LETTER SECTION -->
+        <section id="letter-section" class="py-16 px-4 max-w-3xl mx-auto">
+            <div class="glass-card rounded-3xl p-8 md:p-12 relative border border-pink-500/30">
+                <div class="text-center mb-6">
+                    <i class="fa-solid fa-envelope-open-text text-5xl text-pink-400 mb-2"></i>
+                    <h2 class="text-3xl md:text-4xl font-bold font-handwriting text-pink-300">A Message From My Heart 💌</h2>
+                </div>
+                
+                <div class="space-y-4 text-gray-100 text-base md:text-lg leading-relaxed font-casual tracking-wide bg-black/40 p-6 md:p-8 rounded-2xl border border-pink-500/20 shadow-inner">
+                    <p class="font-bold text-pink-300 text-xl">Hi Rose uh, 💗</p>
+                    <p>Wishing you a very happy birthday Papa</p>
+                    <p>I love youu so much and miss youu lots 🥺💗</p>
+                    <p>Loveee youu so much papaaaaaa 😖 enaku enna soldrathunu theriyala oru madhiri blank ahh irukkuu..</p>
+                    <p>Onnu mattum nallaa therinjikoo enakkuuu unnaaa vida edhuvume perusuu illaaa di, enaku nee venummm ennalaa sathiyamaa mudiyalaaaaa, nee feel pannuvanu solli ennala edhuvum veliya sollavum mudiyalaa, unnaaa pakamaa ennalaaa irukkave mudiyalaa papaaa ennalaa edhuvume panna mudiyalaa di sorryyyyy 😖😭 enaku theriyumm innu konjaa naal thaan aana manasu kekka matingu..</p>
+                    <p>Naan eppovum unakagaa unkooda thaan irupen..enaku edhuvume venda nee podhum 😩💗</p>
+                    <p class="font-bold text-pink-400 text-xl mt-4">Miss youu 😭</p>
+                </div>
+
+                <div class="mt-8 text-center">
+                    <p class="font-romantic text-4xl text-pink-400">Forever Yours,</p>
+                    <p class="text-base text-pink-300 mt-1 font-semibold font-romantic text-2xl">Tharun Dhanalakshmi ❤️</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CUTE LOVE QUIZ MINI GAME -->
+        <section id="game-section" class="py-16 px-4 max-w-2xl mx-auto text-center">
+            <div class="glass-card rounded-3xl p-8 md:p-10 border border-pink-500/30 relative overflow-hidden">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-pink-500/20 flex items-center justify-center text-pink-400 text-3xl">
+                    <i class="fa-solid fa-gamepad"></i>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-romantic text-pink-300 mb-2">Cute Love Quiz 💘</h2>
+                <p class="text-gray-300 text-sm md:text-base mb-6">Answer honestly Papa! Do you love Tharun?</p>
+
+                <div id="quiz-box" class="min-h-[160px] flex flex-col justify-center items-center relative">
+                    <h3 class="text-2xl font-handwriting text-pink-200 mb-8">Do you love me so much? 🥺❤️</h3>
+                    
+                    <div class="flex flex-wrap justify-center items-center gap-6 relative w-full h-20">
+                        <button id="yes-btn" onclick="answerYes()" class="px-8 py-3 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white font-bold rounded-full shadow-lg shadow-pink-500/40 transform hover:scale-110 active:scale-95 transition z-10">
+                            YES! Of course! 💗
+                        </button>
+                        
+                        <button id="no-btn" onmouseover="dodgeNoButton()" onclick="dodgeNoButton()" class="px-6 py-2.5 bg-gray-700/80 hover:bg-gray-600 text-gray-300 rounded-full font-medium transition duration-200 absolute">
+                            No 😜
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Success Message -->
+                <div id="quiz-success" class="hidden p-6 rounded-2xl bg-pink-500/20 border border-pink-400/40 text-center">
+                    <p class="text-3xl font-romantic text-pink-300 mb-2">I knew it, Papa! 🥰💖</p>
+                    <p class="font-handwriting text-xl text-rose-200">
+                        En life eh nee thaan... Enakku nee mattum podhum! Love you so much Papa! 😭💗
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- FINAL SURPRISE GIFT BOX -->
+        <section id="gift-section">
+            <div class="glass-card rounded-3xl p-8 md:p-12 border border-pink-500/30">
+                <p class="text-pink-200 uppercase tracking-[.25em] text-xs md:text-sm mb-3">A little surprise, just for you</p>
+                <h2 class="text-4xl md:text-5xl font-romantic text-pink-300 glow-text mb-3">One Last Surprise 💗</h2>
+                <p class="text-gray-300 mb-5">I saved something special for you, Papa… 🥹</p>
+                <button id="gift-open-button" class="gift-box-button" onclick="openGiftBox()" aria-label="Open your gift box">
+                    <span id="gift-emoji" class="gift-emoji" aria-hidden="true">🎁</span>
+                    <span class="block text-xl md:text-2xl font-semibold text-pink-200 mt-2">Open Your Gift Box 💝</span>
+                    <span class="block text-xs text-pink-300/80 mt-2">Tap to reveal our memories</span>
+                </button>
+                <div id="memory-stage" aria-live="polite">
+                    <div id="memory-card">
+                        <img id="memory-photo" src="" alt="A special memory together">
+                        <p id="memory-caption"></p>
+                        <p id="memory-progress"></p>
+                    </div>
+                    <p id="memory-final-message" class="hidden text-2xl md:text-3xl font-handwriting text-pink-200 leading-relaxed mt-8">
+                        Every photo holds a little piece of my heart. No matter how many memories we make, you will always be my favourite one. Love you forever, Papa. ❤️🥹
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-400 text-xs py-8">
+            Created with infinite love for Rose (Dhana) ❤️ | Passcode Protected
+        </footer>
+    </div>
+
+    <script>
+        // Passcode Lock Validation
+        function checkPasscode() {
+            const input = document.getElementById('passcode-input').value.trim();
+            const passcodeScreen = document.getElementById('passcode-screen');
+            const mainContent = document.getElementById('main-content');
+
+            if (input === 'Rose2823') {
+                passcodeScreen.classList.add('opacity-0');
+                setTimeout(() => {
+                    passcodeScreen.classList.add('hidden');
+                    mainContent.classList.remove('hidden');
+                    triggerConfetti();
+                }, 700);
+            } else {
+                const box = passcodeScreen.firstElementChild;
+                box.classList.add('animate-bounce');
+                setTimeout(() => box.classList.remove('animate-bounce'), 1000);
+            }
+        }
+
+        document.getElementById('passcode-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkPasscode();
+        });
+
+        // Uploaded birthday background music
+        const birthdayAudio = document.getElementById('birthday-audio');
+
+        async function toggleBirthdayMusic() {
+            const musicText = document.getElementById('music-text');
+            const musicIcon = document.getElementById('music-icon');
+
+            if (birthdayAudio.paused) {
+                try {
+                    await birthdayAudio.play();
+                    musicText.innerText = "Playing Birthday Music 🎵";
+                    musicIcon.className = "fa-solid fa-compact-disc text-xl animate-spin";
+                } catch (error) {
+                    musicText.innerText = "Tap to Play Music 🎵";
+                    console.error("Could not play birthday music:", error);
+                }
+            } else {
+                birthdayAudio.pause();
+                musicText.innerText = "Play Birthday Music 🎵";
+                musicIcon.className = "fa-solid fa-compact-disc text-xl";
+            }
+        }
+
+        birthdayAudio.addEventListener('ended', () => {
+            document.getElementById('music-text').innerText = "Play Birthday Music 🎵";
+            document.getElementById('music-icon').className = "fa-solid fa-compact-disc text-xl";
+        });
+
+
+        // Gift box reveals each uploaded photo one at a time, fading out before the next.
+        const birthdayMemories = [
+            { src: 'birthday-assets/memory-1.jpg', caption: 'One of my favourite memories with you 💗' },
+            { src: 'birthday-assets/memory-2.jpg', caption: 'A little moment, a lot of love 🥹' },
+            { src: 'birthday-assets/memory-3.jpg', caption: 'You make ordinary days feel special ✨' },
+            { src: 'birthday-assets/memory-4.jpg', caption: 'My favourite person, always ❤️' },
+            { src: 'birthday-assets/memory-5.png', caption: 'If I could, I would save every moment 💌' },
+            { src: 'birthday-assets/memory-6.jpg', caption: 'More memories, more reasons to smile 💕' },
+            { src: 'birthday-assets/memory-7.jpg', caption: 'A photo today, a forever memory 🫶' },
+            { src: 'birthday-assets/memory-8.jpg', caption: 'You will always be special to me 🌷' },
+            { src: 'birthday-assets/memory-9.png', caption: 'My favourite story is the one with you 💖' }
+        ];
+
+        let giftOpened = false;
+        function openGiftBox() {
+            if (giftOpened) return;
+            giftOpened = true;
+            const button = document.getElementById('gift-open-button');
+            const giftEmoji = document.getElementById('gift-emoji');
+            button.querySelectorAll('span:not(#gift-emoji)').forEach(el => el.style.opacity = '0');
+            giftEmoji.classList.add('opened');
+            triggerConfetti();
+            setTimeout(() => {
+                button.style.display = 'none';
+                const stage = document.getElementById('memory-stage');
+                stage.style.display = 'block';
+                showMemory(0);
+            }, 850);
+        }
+
+        function showMemory(index) {
+            const card = document.getElementById('memory-card');
+            const photo = document.getElementById('memory-photo');
+            const caption = document.getElementById('memory-caption');
+            const progress = document.getElementById('memory-progress');
+            const finalMessage = document.getElementById('memory-final-message');
+
+            if (index >= birthdayMemories.length) {
+                card.style.display = 'none';
+                finalMessage.classList.remove('hidden');
+                triggerConfetti();
+                return;
+            }
+
+            card.style.display = 'block';
+            card.classList.remove('visible', 'fading');
+            photo.src = birthdayMemories[index].src;
+            photo.alt = 'Memory ' + (index + 1) + ' of ' + birthdayMemories.length;
+            caption.textContent = birthdayMemories[index].caption;
+            progress.textContent = (index + 1) + ' / ' + birthdayMemories.length + ' memories';
+            photo.onload = () => requestAnimationFrame(() => card.classList.add('visible'));
+            if (photo.complete) requestAnimationFrame(() => card.classList.add('visible'));
+
+            // Each memory stays on screen briefly, then fades out before the next appears.
+            setTimeout(() => {
+                card.classList.add('fading');
+                setTimeout(() => showMemory(index + 1), 950);
+            }, 3000);
+        }
+
+        // Ambient Floating Hearts
+        function createHearts() {
+            const container = document.getElementById('hearts-container');
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('i');
+                heart.className = 'fa-solid fa-heart floating-heart';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                heart.style.fontSize = (Math.random() * 18 + 12) + 'px';
+                heart.style.animationDelay = (Math.random() * 5) + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        // Cake Cutting & Continuous Floating "Love you papa 💖" Animation
+        let cakeInterval = null;
+
+        function cutCake() {
+            const flame = document.getElementById('flame');
+            if (flame) flame.classList.add('extinguished');
+
+            triggerConfetti();
+
+            // Continuously spawn "Love you papa 💖" text floating upward from cake
+            if (!cakeInterval) {
+                spawnFloatingLoveText();
+                cakeInterval = setInterval(spawnFloatingLoveText, 1200);
+            }
+        }
+
+        function spawnFloatingLoveText() {
+            const container = document.getElementById('cake-container');
+            if (!container) return;
+
+            const loveElem = document.createElement('div');
+            loveElem.className = 'cake-floating-heart';
+            loveElem.innerText = 'Love you papa 💖';
+
+            const xOffset = (Math.random() - 0.5) * 120;
+            const rot = (Math.random() - 0.5) * 20;
+
+            loveElem.style.setProperty('--x-offset', xOffset);
+            loveElem.style.setProperty('--rot', rot);
+            loveElem.style.left = '50%';
+            loveElem.style.top = '40%';
+
+            container.appendChild(loveElem);
+
+            setTimeout(() => {
+                loveElem.remove();
+            }, 4000);
+        }
+
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 150,
+                    spread: 90,
+                    origin: { y: 0.6 },
+                    colors: ['#ec4899', '#f43f5e', '#a855f7', '#fbbf24']
+                });
+            }
+        }
+
+        // Playful Quiz Dodge Button
+        function dodgeNoButton() {
+            const btn = document.getElementById('no-btn');
+            const x = Math.random() * 240 - 120;
+            const y = Math.random() * 120 - 60;
+            btn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        function answerYes() {
+            document.getElementById('quiz-box').classList.add('hidden');
+            document.getElementById('quiz-success').classList.remove('hidden');
+            triggerConfetti();
+        }
+
+        window.onload = function() {
+            createHearts();
+        };
+    </script>
+</body>
+</html>
